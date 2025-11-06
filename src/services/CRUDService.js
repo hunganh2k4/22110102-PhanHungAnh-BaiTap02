@@ -3,7 +3,7 @@ import User from "../models/user.js";
 
 const salt = bcrypt.genSaltSync(10);
 
-export const createNewUser = async (data) => {
+let createNewUser = async (data) => {
   try {
     const hashPasswordFromBcrypt = await hashUserPassword(data.password);
 
@@ -28,8 +28,7 @@ export const createNewUser = async (data) => {
   }
 };
 
-
-export const hashUserPassword = async (password) => {
+let hashUserPassword = async (password) => {
   try {
     const hashPassword = await bcrypt.hash(password, salt);
     return hashPassword;
@@ -38,14 +37,15 @@ export const hashUserPassword = async (password) => {
   }
 };
 
-export const getAllUser = async () => {
+let getAllUser = async () => {
   try {
-    const users = await User.find().lean(); 
+    const users = await User.find().lean();
     return users;
   } catch (error) {
     throw error;
   }
 };
+
 
 let getUserInfoById = (userId) => {
     return new Promise(async (resolve, reject) => {
@@ -111,5 +111,6 @@ module.exports = {
     getAllUser: getAllUser,
     getUserInfoById: getUserInfoById,
     updateUser: updateUser,
-    deleteUserById: deleteUserById
+    deleteUserById: deleteUserById,
+    createNewUser: createNewUser
 }
